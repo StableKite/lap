@@ -51,7 +51,7 @@ def main_setup():
         packages=find_packages(include=[PACKAGE_PATH, f"{PACKAGE_PATH}.*"]),
         include_package_data=True,
         install_requires=['numpy>=1.21.6',],
-        python_requires=">=3.7",
+        python_requires=">=3.8",
         classifiers=['Development Status :: 4 - Beta',
                      'Environment :: Console',
                      'Intended Audience :: Developers',

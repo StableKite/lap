@@ -1,5 +1,6 @@
 # Force compiling with Python 3 
 # cython: language_level=3
+# cython: freethreading_compatible=True
 
 import numpy as np
 cimport numpy as cnp
@@ -69,7 +70,7 @@ def lapjv(cnp.ndarray cost not None, char extend_cost=False,
     if cost.ndim != 2:
         raise ValueError('2-dimensional array expected')
     cdef cnp.ndarray[cnp.double_t, ndim=2, mode='c'] cost_c = \
-        np.ascontiguousarray(cost, dtype=np.double)
+        np.array(cost, dtype=np.double, order='C', copy=True)
     cdef cnp.ndarray[cnp.double_t, ndim=2, mode='c'] cost_c_extended
     cdef uint_t n_rows = cost_c.shape[0]
     cdef uint_t n_cols = cost_c.shape[1]
@@ -138,11 +139,11 @@ def _lapmod(const uint_t n,
             fp_t fp_version=FP_DYNAMIC):
     """Internal function called from lapmod(..., fast=True)."""
     cdef cnp.ndarray[cnp.double_t, ndim=1, mode='c'] cc_c = \
-        np.ascontiguousarray(cc, dtype=np.double)
+        np.array(cc, dtype=np.double, order='C', copy=True)
     cdef cnp.ndarray[uint_t, ndim=1, mode='c'] ii_c = \
-        np.ascontiguousarray(ii, dtype=np.uint32)
+        np.array(ii, dtype=np.uint32, order='C', copy=True)
     cdef cnp.ndarray[uint_t, ndim=1, mode='c'] kk_c = \
-        np.ascontiguousarray(kk, dtype=np.uint32)
+        np.array(kk, dtype=np.uint32, order='C', copy=True)
     cdef cnp.ndarray[int_t, ndim=1, mode='c'] x_c = \
         np.empty((n,), dtype=np.int32)
     cdef cnp.ndarray[int_t, ndim=1, mode='c'] y_c = \
